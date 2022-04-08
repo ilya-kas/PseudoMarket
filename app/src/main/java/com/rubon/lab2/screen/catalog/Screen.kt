@@ -9,9 +9,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.rubon.lab2.app_level.App
 import com.rubon.lab2.data.entity.Product
@@ -30,7 +35,31 @@ fun CatalogScreen() {
 
 @Composable
 fun SearchBar(){
-    //todo
+    Card (
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 3.dp, vertical = 5.dp),
+        shape = RoundedCornerShape(10.dp),
+        elevation = 10.dp
+    ) {
+        val mask = remember{mutableStateOf("")}
+        OutlinedTextField(
+            modifier = Modifier
+                .padding(8.dp)
+                .fillMaxWidth(),
+            value = mask.value,
+            onValueChange = {
+                mask.value = it
+                viewModel.filter(it)
+            },
+            singleLine = true,
+            textStyle = LocalTextStyle.current.copy(fontSize = 14.sp),
+            trailingIcon = {Icon(
+                Icons.Filled.Search,
+                contentDescription = "search icon"
+            )}
+        )
+    }
 }
 
 @Composable
@@ -40,12 +69,14 @@ fun Filters(){
 
 @Composable
 fun ItemsList(){
+    val filteredItems = viewModel.filteredProducts.observeAsState()
+
     LazyColumn(
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
         modifier = Modifier.fillMaxSize()
     ) {
         items(
-            items = viewModel.products,
+            items = filteredItems.value!!,
             itemContent = {
                 ItemLine(it)
             })

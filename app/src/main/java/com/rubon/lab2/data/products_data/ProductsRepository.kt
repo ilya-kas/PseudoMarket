@@ -16,7 +16,6 @@ class ProductsRepositoryImpl @Inject constructor(private val source: ProductsSou
         for (line in response)
             result += Product(line.title, line.price, line.description, line.image, line.rating.rate)
 
-
         return result
     }
 }
