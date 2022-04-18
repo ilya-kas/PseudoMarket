@@ -1,4 +1,4 @@
-package com.rubon.lab2.screen.details
+package com.rubon.lab2.screen.web_item
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -24,8 +24,7 @@ import com.rubon.lab2.screen.NavigationItem
 private val viewModel = App.appComponent.getDetailsViewModel()
 
 @Composable
-fun DetailsScreen(productName: String){
-    viewModel.setupProduct(productName)
+fun WebItemScreen(){
     val product = viewModel.product
 
     Card(modifier = Modifier
@@ -55,7 +54,7 @@ fun DetailsScreen(productName: String){
             Description(product)
 
             Text(
-                modifier = Modifier.clickable { AppModule.navController.navigate(NavigationItem.DETAILS.title) },
+                modifier = Modifier.clickable { navigateToWebView() },
                 text = "Watch original",
                 color = Color.Cyan)
         }
@@ -99,4 +98,8 @@ private fun Description(product: Product){
         Text(text = product.description)
         Text(text = "Price: "+ product.price.toString() + "$")
     }
+}
+
+internal fun navigateToWebView() {
+    AppModule.navController.navigate(NavigationItem.DETAILS.title+"/${viewModel.product.name}")
 }

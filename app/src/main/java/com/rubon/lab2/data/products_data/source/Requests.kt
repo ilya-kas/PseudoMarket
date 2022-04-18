@@ -5,6 +5,7 @@ data class GetProducts(
     val price: Float,
     val description: String,
     val image: String,
+    val category: String,
     val rating: GetRating
 )
 

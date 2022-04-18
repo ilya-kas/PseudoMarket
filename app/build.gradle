@@ -95,4 +95,7 @@ dependencies {
     kapt "androidx.room:room-compiler:2.4.2"
     implementation "androidx.room:room-ktx:2.4.2"
     androidTestImplementation "androidx.room:room-testing:2.4.2"
+
+    //for html parsing
+    implementation 'org.jsoup:jsoup:1.14.3'
 }
