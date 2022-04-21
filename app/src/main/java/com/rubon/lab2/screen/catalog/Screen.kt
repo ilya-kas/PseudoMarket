@@ -74,7 +74,9 @@ private fun SearchBar(){
 @Composable
 private fun Filters(){
     val expanded = remember {mutableStateOf(false)}
+
     Divider(color = main, thickness = 1.dp)
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -215,6 +217,6 @@ private fun ItemLine(item: Product){
     }
 }
 
-internal fun navigateToDetails(item: Product) {
-    AppModule.navController.navigate(NavigationItem.DETAILS.title+"/${item.name}")
+private fun navigateToDetails(item: Product) {
+    AppModule.navController.navigate(NavigationItem.DETAILS.title+"/${item.hashCode()}")
 }

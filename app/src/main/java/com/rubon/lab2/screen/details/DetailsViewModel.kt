@@ -21,10 +21,10 @@ class DetailsViewModel @Inject constructor(private val productsDBRepository: Pro
         }
     }
 
-    fun setupProduct(name: String){
+    fun setupProduct(hash: Int){
         itemLink = ""
         for (product in filledProductsHolder.products)
-            if (product.name == name) {
+            if (product.hashCode() == hash) {
                 this.product = product
                 break
             }

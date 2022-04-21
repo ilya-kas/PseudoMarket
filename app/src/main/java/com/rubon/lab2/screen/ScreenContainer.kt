@@ -17,6 +17,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.rubon.lab2.R
+import com.rubon.lab2.app_level.App
 import com.rubon.lab2.screen.about.AboutScreen
 import com.rubon.lab2.screen.catalog.CatalogScreen
 import com.rubon.lab2.screen.details.DetailsScreen
@@ -24,6 +25,9 @@ import com.rubon.lab2.screen.favorites.FavoritesScreen
 import com.rubon.lab2.screen.profile.ProfileScreen
 import com.rubon.lab2.screen.web_item.WebItemScreen
 import com.rubon.lab2.ui.theme.main
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 @Composable
 fun BottomNavigationView(navController: NavHostController){
@@ -47,14 +51,30 @@ fun BottomNavigationView(navController: NavHostController){
                 selected = false,
                 modifier = Modifier.offset(5.dp),
                 onClick = {
-                    try {
-                        navController.navigate(item.title) {
-                            popUpTo(navController.graph.findStartDestination().id)
-                            launchSingleTop = true
+                    when (item.title){
+                        NavigationItem.FAVORITES.title -> GlobalScope.launch {
+                            App.appComponent.getFavoritesViewModel().filterFavorites()
+                            GlobalScope.launch (Dispatchers.Main){
+                                try {
+                                    navController.navigate(item.title) {
+                                        popUpTo(navController.graph.findStartDestination().id)
+                                        launchSingleTop = true
+                                    }
+                                } catch (e: IllegalStateException) {
+                                    if (e.message != "Already attached to lifecycleOwner")
+                                        throw e
+                                }
+                            }
                         }
-                    } catch (e: IllegalStateException) {
-                        if (e.message != "Already attached to lifecycleOwner")
-                            throw e
+                        else -> try {
+                                    navController.navigate(item.title) {
+                                        popUpTo(navController.graph.findStartDestination().id)
+                                        launchSingleTop = true
+                                    }
+                                } catch (e: IllegalStateException) {
+                                    if (e.message != "Already attached to lifecycleOwner")
+                                        throw e
+                                }
                     }
                 }
             )
@@ -80,10 +100,10 @@ fun ScreenContainer(navController: NavHostController) {
 
         composable(
             NavigationItem.DETAILS.title+"/{product}",
-            arguments = listOf(navArgument("product") { type = NavType.StringType })
+            arguments = listOf(navArgument("product") { type = NavType.IntType })
         ) { backStackEntry ->
-            val productName = backStackEntry.arguments!!.getString("product")!!
-            DetailsScreen(productName)
+            val productHash = backStackEntry.arguments!!.getInt("product")
+            DetailsScreen(productHash)
         }
 
         composable(NavigationItem.WebItem.title) {

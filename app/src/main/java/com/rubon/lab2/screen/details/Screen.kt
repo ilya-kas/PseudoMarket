@@ -2,8 +2,6 @@ package com.rubon.lab2.screen.details
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -27,13 +25,12 @@ import com.rubon.lab2.screen.NavigationItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import org.jsoup.Jsoup
 
 private val viewModel = App.appComponent.getDetailsViewModel()
 
 @Composable
-fun DetailsScreen(productName: String){
-    viewModel.setupProduct(productName)
+fun DetailsScreen(productHash: Int){
+    viewModel.setupProduct(productHash)
     val product = viewModel.product
 
     Card(

@@ -1,5 +1,7 @@
 package com.rubon.lab2.app_level.dagger.module
 
+import com.rubon.lab2.data.database.comments.CommentsRepository
+import com.rubon.lab2.data.database.comments.CommentsRepositoryImpl
 import com.rubon.lab2.data.database.products.ProductsDBRepository
 import com.rubon.lab2.data.database.products.ProductsDBRepositoryImpl
 import com.rubon.lab2.data.products_data.ProductsRepository
@@ -17,4 +19,6 @@ interface BindModule {
     fun bindProductsSource(provider: ProductsSourceImpl): ProductsSource
     @Binds
     fun bindProductsDBRepository(provider: ProductsDBRepositoryImpl): ProductsDBRepository
+    @Binds
+    fun bindCommentsRepository(provider: CommentsRepositoryImpl): CommentsRepository
 }
