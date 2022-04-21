@@ -24,7 +24,7 @@ open class APIModule{
         .build()
 
     private fun getCurrenciesRetrofit(): Retrofit = Retrofit.Builder()
-        .baseUrl("https://belarusbank.by/api/kursExchange?city=Минск")
+        .baseUrl("https://belarusbank.by")
         .client(getOkHTTPClient())
         .addConverterFactory(getConvertor())
         .build()

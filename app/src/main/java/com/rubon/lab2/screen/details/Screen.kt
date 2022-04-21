@@ -1,5 +1,6 @@
 package com.rubon.lab2.screen.details
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -15,11 +16,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.rubon.lab2.R
 import com.rubon.lab2.app_level.App
 import com.rubon.lab2.app_level.dagger.module.AppModule
+import com.rubon.lab2.logic.entity.Currency
 import com.rubon.lab2.logic.entity.Product
 import com.rubon.lab2.screen.NavigationItem
 import kotlinx.coroutines.Dispatchers
@@ -41,7 +44,9 @@ fun DetailsScreen(productHash: Int){
             .verticalScroll(rememberScrollState())
             .padding(horizontal = 3.dp, vertical = 5.dp)
     ) {
-        Column(modifier = Modifier.fillMaxSize().padding(vertical = 10.dp)) {
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .padding(vertical = 10.dp)) {
             FavoritesButtonWithContainer()
 
             //Product photo
@@ -62,7 +67,9 @@ fun DetailsScreen(productHash: Int){
             Description(product)
 
             Text(
-                modifier = Modifier.clickable { navigateToWebView() }.padding(horizontal = 10.dp),
+                modifier = Modifier
+                    .clickable { navigateToWebView() }
+                    .padding(horizontal = 10.dp),
                 text = "Watch original",
                 color = Color.Cyan)
         }
@@ -104,11 +111,77 @@ private fun Description(product: Product){
         Text(text = "Category: "+ product.category)
         Text(text = "Rating: "+ product.rating.toString())
         Text(text = product.description)
-        Text(text = "Price: "+ product.price.toString() + "$")
+        PriceView(product = product)
     }
 }
 
-internal fun navigateToWebView() {
+@Composable
+private fun PriceView(product: Product){
+    val price = remember { mutableStateOf("${product.price} USD") }
+    val currency = remember {  mutableStateOf(Currency.USD) }
+    val expanded = remember { mutableStateOf(false) }
+
+    Row {
+        Text(
+            modifier = Modifier.padding(top = 3.dp),
+            text = "Price: "+price.value
+        )
+
+        if (expanded.value)
+            Column(
+                modifier = Modifier
+                    .animateContentSize()
+            ) {
+                DropDownIcon { expanded.value = !expanded.value }
+                if (currency.value != Currency.EUR)
+                    Text(text = "EUR", modifier = Modifier.clickable {
+                        GlobalScope.launch {
+                            price.value = viewModel.switchCurrency(Currency.EUR).toString() + " EUR"
+                            currency.value = Currency.EUR
+                        }
+                    })
+
+                if (currency.value != Currency.RUB)
+                    Text(text = "RUB", modifier = Modifier.clickable {
+                        GlobalScope.launch {
+                            price.value = viewModel.switchCurrency(Currency.RUB).toString() + " RUB"
+                            currency.value = Currency.RUB
+                        }
+                    })
+
+                if (currency.value != Currency.USD)
+                    Text(text = "USD", modifier = Modifier.clickable {
+                        GlobalScope.launch {
+                            price.value = viewModel.switchCurrency(Currency.USD).toString() + " USD"
+                            currency.value = Currency.USD
+                        }
+                    })
+
+                if (currency.value != Currency.BYN)
+                    Text(text = "BYN", modifier = Modifier.clickable {
+                        GlobalScope.launch {
+                            price.value = viewModel.switchCurrency(Currency.BYN).toString() + " BYN"
+                            currency.value = Currency.BYN
+                        }
+                    })
+            }
+        else
+            DropDownIcon {expanded.value = !expanded.value}
+    }
+}
+
+@Composable
+private fun DropDownIcon(onClick: () -> Unit) {
+    Image(
+        painter = painterResource(id = R.drawable.droplist),
+        contentDescription = "Arrow down",
+        modifier = Modifier
+            .size(30.dp)
+            .clickable { onClick() }
+    )
+}
+
+private fun navigateToWebView() {
     GlobalScope.launch {
         viewModel.getLink()
 

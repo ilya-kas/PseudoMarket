@@ -4,6 +4,6 @@ import retrofit2.Call
 import retrofit2.http.*
 
 interface CurrenciesApi {
-    @GET("/")
+    @GET("/api/kursExchange?city=Полоцк")
     fun getCurrencies(): Call<List<GetCurrencies>>
 }

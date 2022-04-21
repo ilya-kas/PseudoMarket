@@ -18,7 +18,7 @@ class CurrenciesRepositoryImpl @Inject constructor(private val source: Currencie
 
         val response = source.loadProducts()
 
-        cachedResult = CurrenciesInfo(response[0].EUR_out, response[0].RUB_out, response[0].USD_out)
+        cachedResult = CurrenciesInfo(response[0].EUR_out.toFloat(), response[0].RUB_out.toFloat(), response[0].USD_out.toFloat())
         return cachedResult!!
     }
 }

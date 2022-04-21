@@ -1,7 +1,14 @@
 package com.rubon.lab2.logic.entity
 
 data class CurrenciesInfo(
-    val EUR: String,
-    val RUB: String,
-    val USD: String
+    val EUR: Float,
+    val RUB: Float,
+    val USD: Float
 )
+
+enum class Currency{
+    EUR,
+    RUB,
+    USD,
+    BYN
+}
