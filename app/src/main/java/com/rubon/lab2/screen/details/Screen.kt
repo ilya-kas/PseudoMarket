@@ -2,8 +2,12 @@ package com.rubon.lab2.screen.details
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -20,6 +24,10 @@ import com.rubon.lab2.app_level.App
 import com.rubon.lab2.app_level.dagger.module.AppModule
 import com.rubon.lab2.logic.entity.Product
 import com.rubon.lab2.screen.NavigationItem
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import org.jsoup.Jsoup
 
 private val viewModel = App.appComponent.getDetailsViewModel()
 
@@ -28,13 +36,15 @@ fun DetailsScreen(productName: String){
     viewModel.setupProduct(productName)
     val product = viewModel.product
 
-    Card(modifier = Modifier
-        .fillMaxSize()
-        .padding(horizontal = 3.dp, vertical = 5.dp),
+    Card(
         shape = RoundedCornerShape(20.dp),
-        elevation = 10.dp
+        elevation = 10.dp,
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(horizontal = 3.dp, vertical = 5.dp)
     ) {
-        Column(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier.fillMaxSize().padding(vertical = 10.dp)) {
             FavoritesButtonWithContainer()
 
             //Product photo
@@ -55,7 +65,7 @@ fun DetailsScreen(productName: String){
             Description(product)
 
             Text(
-                modifier = Modifier.clickable { AppModule.navController.navigate(NavigationItem.DETAILS.title) },
+                modifier = Modifier.clickable { navigateToWebView() }.padding(horizontal = 10.dp),
                 text = "Watch original",
                 color = Color.Cyan)
         }
@@ -98,5 +108,15 @@ private fun Description(product: Product){
         Text(text = "Rating: "+ product.rating.toString())
         Text(text = product.description)
         Text(text = "Price: "+ product.price.toString() + "$")
+    }
+}
+
+internal fun navigateToWebView() {
+    GlobalScope.launch {
+        viewModel.getLink()
+
+        GlobalScope.launch(Dispatchers.Main) {
+            AppModule.navController.navigate(NavigationItem.WebItem.title)
+        }
     }
 }
