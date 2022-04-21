@@ -1,7 +1,7 @@
 package com.rubon.lab2.logic.use_case
 
 import com.rubon.lab2.data.database.products.ProductsDBRepository
-import com.rubon.lab2.data.products_data.ProductsRepository
+import com.rubon.lab2.data.api.products_data.ProductsRepository
 import com.rubon.lab2.logic.entity.Product
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

@@ -1,7 +1,7 @@
-package com.rubon.lab2.data.products_data
+package com.rubon.lab2.data.api.products_data
 
 import com.rubon.lab2.logic.entity.Product
-import com.rubon.lab2.data.products_data.source.ProductsSource
+import com.rubon.lab2.data.api.products_data.source.ProductsSource
 import javax.inject.Inject
 
 interface ProductsRepository {

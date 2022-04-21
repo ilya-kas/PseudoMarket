@@ -2,16 +2,10 @@ package com.rubon.lab2.screen.catalog
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.rubon.lab2.data.database.products.ProductsDBRepository
 import com.rubon.lab2.logic.entity.FilterState
 import com.rubon.lab2.logic.entity.FilterType
 import com.rubon.lab2.logic.entity.Product
-import com.rubon.lab2.data.products_data.ProductsRepository
 import com.rubon.lab2.logic.use_case.FilledProductsHolder
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import java.lang.Exception
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.collections.ArrayList

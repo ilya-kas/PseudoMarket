@@ -1,4 +1,4 @@
-package com.rubon.lab2.data.products_data.source
+package com.rubon.lab2.data.api.products_data.source
 
 data class GetProducts(
     val title: String,

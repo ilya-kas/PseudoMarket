@@ -91,7 +91,7 @@ private fun ItemCard(item: Product){
                     },
                     textStyle = LocalTextStyle.current.copy(fontSize = 14.sp),
                     colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = Color.White
+                        backgroundColor = MaterialTheme.colors.background
                     )
                 )
 

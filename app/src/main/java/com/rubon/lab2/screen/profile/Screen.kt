@@ -5,6 +5,7 @@ import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -18,6 +19,9 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import com.google.maps.android.compose.*
 import com.rubon.lab2.R
+import com.rubon.lab2.app_level.App
+
+private val viewModel = App.appComponent.getAppStateViewModel()
 
 @Preview(showBackground = true)
 @Composable
@@ -27,12 +31,17 @@ fun ProfileScreen(){
         horizontalAlignment = Alignment.CenterHorizontally
     ){
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd){
+            val image = remember{ mutableStateOf(getThemeImage())}
             Image(
-                painter = painterResource(id = R.drawable.photo),
+                painter = painterResource(id = image.value),
                 contentDescription = "light mod switch",
                 Modifier
                     .padding(3.dp)
                     .size(40.dp)
+                    .clickable {
+                        viewModel.isLightTheme.value = !viewModel.isLightTheme.value!!
+                        image.value = getThemeImage()
+                    }
             )
         }
         Image(
@@ -49,6 +58,13 @@ fun ProfileScreen(){
 
         LocationView()
     }
+}
+
+private fun getThemeImage(): Int {
+    if (viewModel.isLightTheme.value!!)
+        return R.drawable.sun
+    else
+        return R.drawable.moon
 }
 
 @Composable

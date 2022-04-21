@@ -10,6 +10,7 @@ import com.rubon.lab2.logic.use_case.FilledProductsHolder
 import com.rubon.lab2.screen.catalog.CatalogViewModel
 import com.rubon.lab2.screen.details.DetailsViewModel
 import com.rubon.lab2.screen.favorites.FavoritesViewModel
+import com.rubon.lab2.ui.theme.AppStateViewModel
 import dagger.Component
 import javax.inject.Singleton
 
@@ -21,6 +22,7 @@ interface AppComponent {
     fun getCatalogViewModel(): CatalogViewModel
     fun getDetailsViewModel(): DetailsViewModel
     fun getFavoritesViewModel(): FavoritesViewModel
+    fun getAppStateViewModel(): AppStateViewModel
 
     fun inject(activity: MainActivity)
 }

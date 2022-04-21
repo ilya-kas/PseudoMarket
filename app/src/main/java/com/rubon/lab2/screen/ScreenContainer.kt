@@ -1,10 +1,7 @@
 package com.rubon.lab2.screen
 
 import androidx.compose.foundation.layout.offset
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,7 +35,7 @@ fun BottomNavigationView(navController: NavHostController){
         NavigationItem.ABOUT
     )
     BottomNavigation(
-        backgroundColor = main,
+        backgroundColor = MaterialTheme.colors.primary,
         contentColor = Color.Black,
     ) {
         items.forEach { item ->
