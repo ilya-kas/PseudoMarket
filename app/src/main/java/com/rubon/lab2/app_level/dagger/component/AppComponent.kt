@@ -17,8 +17,6 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [BindModule::class, AppModule::class, DBModule::class, APIModule::class])
 interface AppComponent {
-    fun getContext(): Context
-
     fun getCatalogViewModel(): CatalogViewModel
     fun getDetailsViewModel(): DetailsViewModel
     fun getFavoritesViewModel(): FavoritesViewModel
